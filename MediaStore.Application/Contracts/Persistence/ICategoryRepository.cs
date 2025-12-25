@@ -4,12 +4,12 @@ namespace MediaStore.Application.Contracts.Persistence
 {
     public interface ICategoryRepository
     {
-        Task<List<Category>> GetAllCategoriesAsync(bool? isDeleted);
-        Task<Category?> GetCategoryByIdAsync(int id);
-        Task CreateCategoryAsync(Category category);
-        void UpdateCategory(Category category);
-        Task<bool> CheckCategoryTitleExisted(string title, int? id = null);
-        Task<bool> CheckCategorySlugExisted(string slug, int? id = null);
+        IQueryable<Category> Query();
+        Task<Category?> GetByIdAsync(int id);
+        Task CreateAsync(Category category);
+        void Update(Category category);
+        Task<bool> CheckTitleExists(string title, int? id = null);
+        Task<bool> CheckSlugExisted(string slug, int? id = null);
         Task SaveChangesAsync();
     }
 }

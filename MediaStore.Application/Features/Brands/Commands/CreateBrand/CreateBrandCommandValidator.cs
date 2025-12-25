@@ -28,13 +28,13 @@ namespace MediaStore.Application.Features.Brands.Commands.CreateBrand
 
         private async Task<bool> CheckBrandSlugExisted(CreateBrandCommand command, CancellationToken cancellationToken)
         {
-            var check = await _brandRepository.CheckBrandSlugExisted(command.Slug);
+            var check = await _brandRepository.CheckSlugExists(command.Slug);
             return !check;
         }
 
         private async Task<bool> CheckBrandTitleExisted(CreateBrandCommand command, CancellationToken cancellationToken)
         {
-            var check = await _brandRepository.CheckBrandTitleExisted(command.Title);
+            var check = await _brandRepository.CheckTitleExists(command.Title);
             return !check;
         }
     }

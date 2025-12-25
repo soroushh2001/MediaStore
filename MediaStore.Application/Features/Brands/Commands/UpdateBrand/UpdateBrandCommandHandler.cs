@@ -20,7 +20,7 @@ namespace MediaStore.Application.Features.Brands.Commands.UpdateBrand
         public async Task<ApiResponse<bool>> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
         {
             var response = new ApiResponse<bool>();
-            var brandToUpdate = await _brandRepository.GetBrandByIdAsync(request.Id);
+            var brandToUpdate = await _brandRepository.GetByIdAsync(request.Id);
 
             if (brandToUpdate == null)
             {
@@ -46,7 +46,7 @@ namespace MediaStore.Application.Features.Brands.Commands.UpdateBrand
 
             brandToUpdate.LastModifiedDate = DateTime.Now;
 
-            _brandRepository.UpdateBrand(brandToUpdate);
+            _brandRepository.Update(brandToUpdate);
             await _brandRepository.SaveChangesAsync();
             return response;
         }

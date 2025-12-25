@@ -13,40 +13,33 @@ namespace MediaStore.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<List<Category>> GetAllCategoriesAsync(bool? isDeleted)
+        public IQueryable<Category> Query()
         {
-            var query = _context.Categories.AsQueryable();
-
-            if (isDeleted.HasValue)
-            {
-                query = query.Where(c => c.IsDeleted == isDeleted);
-            }
-
-            return await query.ToListAsync();
+            return _context.Categories.AsQueryable();
         }
 
-        public async Task<Category?> GetCategoryByIdAsync(int id)
+        public async Task<Category?> GetByIdAsync(int id)
         {
             return await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task CreateCategoryAsync(Category category)
+        public async Task CreateAsync(Category category)
         {
             await _context.Categories.AddAsync(category);
             await _context.SaveChangesAsync();
         }
 
-        public void UpdateCategory(Category category)
+        public void Update(Category category)
         {
             _context.Categories.Update(category);
         }
 
-        public async Task<bool> CheckCategoryTitleExisted(string title, int? id = null)
+        public async Task<bool> CheckTitleExists(string title, int? id = null)
         {
             return await _context.Categories.AnyAsync(c => c.Title == title && c.Id != id);
         }
 
-        public async Task<bool> CheckCategorySlugExisted(string slug, int? id = null)
+        public async Task<bool> CheckSlugExisted(string slug, int? id = null)
         {
             return await _context.Categories.AnyAsync(c => c.Slug == slug && c.Id != id);
         }

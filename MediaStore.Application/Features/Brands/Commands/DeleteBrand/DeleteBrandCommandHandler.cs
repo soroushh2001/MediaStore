@@ -17,7 +17,7 @@ namespace MediaStore.Application.Features.Brands.Commands.DeleteBrand
         {
             var response = new ApiResponse<bool>();
 
-            var brand = await _brandRepository.GetBrandByIdAsync(request.Id);
+            var brand = await _brandRepository.GetByIdAsync(request.Id);
             
             if (brand == null)
             {
@@ -27,7 +27,7 @@ namespace MediaStore.Application.Features.Brands.Commands.DeleteBrand
             }
 
             brand.IsDeleted = true;
-            _brandRepository.UpdateBrand(brand);
+            _brandRepository.Update(brand);
             await _brandRepository.SaveChangesAsync();
             return response;
 

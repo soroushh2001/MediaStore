@@ -21,7 +21,7 @@ namespace MediaStore.Application.Features.Categories.Commands.UpdateCategory
         public async Task<ApiResponse<bool>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
             var response = new ApiResponse<bool>();
-            var categoryToUpdate = await _categoryRepository.GetCategoryByIdAsync(request.Id);
+            var categoryToUpdate = await _categoryRepository.GetByIdAsync(request.Id);
 
             if (categoryToUpdate == null)
             {
@@ -46,7 +46,7 @@ namespace MediaStore.Application.Features.Categories.Commands.UpdateCategory
 
             categoryToUpdate.LastModifiedDate = DateTime.Now;
 
-            _categoryRepository.UpdateCategory(categoryToUpdate);
+            _categoryRepository.Update(categoryToUpdate);
             await _categoryRepository.SaveChangesAsync();
             return response;
         }

@@ -1,4 +1,4 @@
-﻿namespace MediaStore.Application.Specifications
+﻿namespace MediaStore.Application.FilterParameters
 {
     public class BaseQueryParameters
     {

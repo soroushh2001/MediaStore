@@ -26,13 +26,13 @@ namespace MediaStore.Application.Features.Categories.Commands.CreateCategory
 
         private async Task<bool> CheckCategorySlugExisted(CreateCategoryCommand command, CancellationToken cancellationToken)
         {
-            var check = await _categoryRepository.CheckCategorySlugExisted(command.Slug);
+            var check = await _categoryRepository.CheckSlugExisted(command.Slug);
             return !check;
         }
 
         private async Task<bool> CheckCategoryTitleExisted(CreateCategoryCommand command, CancellationToken cancellationToken)
         {
-            var check = await _categoryRepository.CheckCategoryTitleExisted(command.Title);
+            var check = await _categoryRepository.CheckTitleExists(command.Title);
             return !check;
         }
 

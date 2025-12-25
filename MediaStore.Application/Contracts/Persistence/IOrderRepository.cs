@@ -4,10 +4,10 @@ namespace MediaStore.Application.Contracts.Persistence
 {
     public interface IOrderRepository
     {
-        Task AddOrderAsync(Order order);
+        Task AddAsync(Order order);
         Task<Order?> GetUserLatestOpenOrderAsync(string userId);
         Task<int> UpdateSumOrderAsync(int orderId);
-        void UpdateOrder(Order order);
+        void Update(Order order);
         Task SaveChangesAsync();
     }
 }

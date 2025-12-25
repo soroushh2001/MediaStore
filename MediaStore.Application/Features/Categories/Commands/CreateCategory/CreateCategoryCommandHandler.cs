@@ -33,7 +33,7 @@ namespace MediaStore.Application.Features.Categories.Commands.CreateCategory
             request.Slug = request.Slug.GenerateSlug();
             var category = _mapper.Map<Category>(request);
 
-            await _categoryRepository.CreateCategoryAsync(category);
+            await _categoryRepository.CreateAsync(category);
             await _categoryRepository.SaveChangesAsync();
             return response;
         }

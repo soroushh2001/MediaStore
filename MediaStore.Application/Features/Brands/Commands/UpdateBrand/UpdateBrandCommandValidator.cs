@@ -22,13 +22,13 @@ namespace MediaStore.Application.Features.Brands.Commands.UpdateBrand
 
         private async Task<bool> CheckBrandSlugExisted(UpdateBrandCommand command, CancellationToken cancellationToken)
         {
-            var check = await _brandRepository.CheckBrandSlugExisted(command.Slug, command.Id);
+            var check = await _brandRepository.CheckSlugExists(command.Slug, command.Id);
             return !check;
         }
 
         private async Task<bool> CheckBrandTitleExisted(UpdateBrandCommand command, CancellationToken cancellationToken)
         {
-            var check = await _brandRepository.CheckBrandTitleExisted(command.Title, command.Id);
+            var check = await _brandRepository.CheckTitleExists(command.Title, command.Id);
             return !check;
         }
 

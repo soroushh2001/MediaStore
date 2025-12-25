@@ -7,13 +7,15 @@ namespace MediaStore.Application.Extensions
     {
         public int PageIndex { get; private set; }
         public int TotalPages { get; private set; }
-        public int PageRange { get; private set; } // Number of pages to show before and after the current page
+        public int PageRange { get; private set; } 
+        public int PageSize { get; private set; }
 
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize, int pageRange = 2)
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             PageRange = pageRange;
+            PageSize = pageSize;
 
             AddRange(items);
         }
@@ -43,7 +45,10 @@ namespace MediaStore.Application.Extensions
                 HasPreviousPage = paginated.HasPreviousPage,
                 HasNextPage = paginated.HasNextPage,
                 VisiblePages = paginated.VisiblePages,
-                TotalPage = paginated.TotalPages
+                TotalPages = paginated.TotalPages,
+                PageIndex = pageIndex,
+                PageRange = pageRange,
+                PageSize = pageSize
             };
         }
     }

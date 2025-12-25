@@ -21,7 +21,7 @@ namespace MediaStore.Application.Features.Cart.Commands.IncreaseDecreaseCartItem
 
         public  async Task<bool> Handle(IncreaseDecreaseCartItemCommand request, CancellationToken cancellationToken)
         {
-            var orderDetail = await _orderDetailRepository.GetOrderDetailByIdAsync(request.OrderDetailId);
+            var orderDetail = await _orderDetailRepository.GetByIdAsync(request.OrderDetailId);
             if (orderDetail == null) 
                 return false;
             switch (request.Op.ToLower())
@@ -37,16 +37,16 @@ namespace MediaStore.Application.Features.Cart.Commands.IncreaseDecreaseCartItem
             }
             if (orderDetail.Count == 0)
             {
-                _orderDetailRepository.DeleteOrderDetail(orderDetail);
+                _orderDetailRepository.Remove(orderDetail);
             }
             else
             {
-                _orderDetailRepository.UpdateOrderDetail(orderDetail);
+                _orderDetailRepository.Update(orderDetail);
             }
             await _orderDetailRepository.SaveChangesAsync();
             var order = await _orderRepository.GetUserLatestOpenOrderAsync(_userService.UserId);
             order!.Sum = await _orderRepository.UpdateSumOrderAsync(order.Id);
-            _orderRepository.UpdateOrder(order);
+            _orderRepository.Update(order);
             await _orderRepository.SaveChangesAsync();
             return true;
         }

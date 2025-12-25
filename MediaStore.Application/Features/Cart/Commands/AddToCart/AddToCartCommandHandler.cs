@@ -36,7 +36,7 @@ namespace MediaStore.Application.Features.Cart.Commands.AddToCart
                     UserId = _userService.UserId,
                     Sum = product.Price * request.Count
                 };
-                await _orderRepository.AddOrderAsync(newOrder);
+                await _orderRepository.AddAsync(newOrder);
                 await _orderRepository.SaveChangesAsync();
                 var orderDetail = new OrderDetail
                 {
@@ -45,12 +45,12 @@ namespace MediaStore.Application.Features.Cart.Commands.AddToCart
                     Price = product.Price,
                     ProductId = request.ProductId,
                 };
-                await _orderDetailRepository.AddOrderDetailAsync(orderDetail);
+                await _orderDetailRepository.AddAsync(orderDetail);
                 await _orderDetailRepository.SaveChangesAsync();
             }
             else
             {
-                var orderDetail = await _orderDetailRepository.GetOrderDetailByOrderAndProductIdAsync(order.Id, request.ProductId);
+                var orderDetail = await _orderDetailRepository.GetByOrderAndProductIdAsync(order.Id, request.ProductId);
                 if (orderDetail == null)
                 {
                     orderDetail = new OrderDetail
@@ -60,17 +60,17 @@ namespace MediaStore.Application.Features.Cart.Commands.AddToCart
                         Price = product.Price,
                         ProductId = request.ProductId,
                     };
-                    await _orderDetailRepository.AddOrderDetailAsync(orderDetail);
+                    await _orderDetailRepository.AddAsync(orderDetail);
                     await _orderDetailRepository.SaveChangesAsync();
                 }
                 else
                 {
                     orderDetail.Count += request.Count;
-                    _orderDetailRepository.UpdateOrderDetail(orderDetail);
+                    _orderDetailRepository.Update(orderDetail);
                     await _orderRepository.SaveChangesAsync();
                 }
                 order.Sum = await _orderRepository.UpdateSumOrderAsync(order.Id);
-                _orderRepository.UpdateOrder(order);
+                _orderRepository.Update(order);
                 await _orderRepository.SaveChangesAsync();
             }
 

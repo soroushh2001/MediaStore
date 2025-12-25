@@ -20,7 +20,7 @@ namespace MediaStore.Application.Features.Brands.Queries.GetBrandById
         public async Task<ApiResponse<BrandResponse>> Handle(GetBrandByIdQuery request, CancellationToken cancellationToken)
         {
             var apiResponse = new ApiResponse<BrandResponse>();
-            var brand = await _brandRepository.GetBrandByIdAsync(request.Id);
+            var brand = await _brandRepository.GetByIdAsync(request.Id);
             if(brand == null)
             {
                 apiResponse.StatusCode = StatusCodes.NotFound;

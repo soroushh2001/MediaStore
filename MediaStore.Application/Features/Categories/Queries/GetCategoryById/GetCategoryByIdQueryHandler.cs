@@ -20,7 +20,7 @@ namespace MediaStore.Application.Features.Categories.Queries.GetCategoryById
         public async Task<ApiResponse<CategoryResponse>> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
         {
             var apiResponse = new ApiResponse<CategoryResponse>();
-            var category = await _categoryRepository.GetCategoryByIdAsync(request.Id);
+            var category = await _categoryRepository.GetByIdAsync(request.Id);
             if (category == null)
             {
                 apiResponse.StatusCode = StatusCodes.NotFound;

@@ -17,38 +17,33 @@ namespace MediaStore.Persistence.Repositories
         }
 
         #endregion
-
-        public async Task<List<Brand>> GetAllBrandsAsync(bool? isDeleted)
+        
+        public IQueryable<Brand> Query()
         {
-            var query = _context.Brands.AsQueryable();
-            if (isDeleted.HasValue)
-            {
-                query = query.Where(b => b.IsDeleted == isDeleted);
-            }
-            return await query.ToListAsync();
+            return _context.Brands.AsQueryable();
         }
 
-        public async Task<Brand?> GetBrandByIdAsync(int id)
+        public async Task<Brand?> GetByIdAsync(int id)
         {
             return await _context.Brands.AsNoTracking().FirstOrDefaultAsync(b => b.Id == id);
         }
 
-        public async Task CreateBrandAsync(Brand brand)
+        public async Task CreateAsync(Brand brand)
         {
             await _context.Brands.AddAsync(brand);
         }
 
-        public void UpdateBrand(Brand brand)
+        public void Update(Brand brand)
         {
             _context.Brands.Update(brand);
         }
 
-        public async Task<bool> CheckBrandTitleExisted(string title, int? id = null)
+        public async Task<bool> CheckTitleExists(string title, int? id = null)
         {
             return await _context.Brands.AnyAsync(b => b.Title == title && b.Id != id);
         }
 
-        public async Task<bool> CheckBrandSlugExisted(string slug, int? id = null)
+        public async Task<bool> CheckSlugExists(string slug, int? id = null)
         {
             return await _context.Brands.AnyAsync(b => b.Slug == slug && b.Id != id);
         }

@@ -19,17 +19,17 @@ namespace MediaStore.Persistence.Repositories
             _context = context;
         }
 
-        public async Task AddOrderDetailAsync(OrderDetail orderDetail)
+        public async Task AddAsync(OrderDetail orderDetail)
         {
             await _context.OrderDetails.AddAsync(orderDetail);
         }
 
-        public async Task<OrderDetail?> GetOrderDetailByOrderAndProductIdAsync(int orderId, int productId)
+        public async Task<OrderDetail?> GetByOrderAndProductIdAsync(int orderId, int productId)
         {
             return await _context.OrderDetails.FirstOrDefaultAsync(x => x.OrderId == orderId && x.ProductId == productId);
         }
 
-        public void UpdateOrderDetail(OrderDetail orderDetail)
+        public void Update(OrderDetail orderDetail)
         {
             _context.OrderDetails.Update(orderDetail);
         }
@@ -39,12 +39,12 @@ namespace MediaStore.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public void DeleteOrderDetail(OrderDetail detail)
+        public void Remove(OrderDetail detail)
         {
             _context.OrderDetails.Remove(detail);
         }
 
-        public async Task<OrderDetail?> GetOrderDetailByIdAsync(int id)
+        public async Task<OrderDetail?> GetByIdAsync(int id)
         {
             return await _context.OrderDetails.FindAsync(id);
         }

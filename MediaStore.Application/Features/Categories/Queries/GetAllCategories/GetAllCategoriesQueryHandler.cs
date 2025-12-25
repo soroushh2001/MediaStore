@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediaStore.Application.Contracts.Persistence;
 using MediaStore.Application.Features.Categories.Shared;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace MediaStore.Application.Features.Categories.Queries.GetAllCategories
 {
@@ -17,8 +19,11 @@ namespace MediaStore.Application.Features.Categories.Queries.GetAllCategories
 
         public async Task<List<CategoryResponse>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
         {
-            var categories = await _categoryRepository.GetAllCategoriesAsync(request.isDeleted);
-            return _mapper.Map<List<CategoryResponse>>(categories);
+            var query =  _categoryRepository.Query();
+            if(request.isDeleted != null)
+                query = query.Where(x => x.IsDeleted == request.isDeleted.Value);
+
+            return await query.ProjectTo<CategoryResponse>(_mapper.ConfigurationProvider).ToListAsync();
         }
     }
 }

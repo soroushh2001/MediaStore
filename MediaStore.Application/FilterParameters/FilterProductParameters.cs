@@ -1,6 +1,6 @@
-﻿namespace MediaStore.Application.Specifications
+﻿namespace MediaStore.Application.FilterParameters
 {
-    public class FilterProductSpecification : BaseQueryParameters
+    public class FilterProductParameters 
     {
         public string? CategorySlug { get; set; }
         public List<string>? BrandSlugs { get; set; }

@@ -16,14 +16,14 @@ namespace MediaStore.Application.Features.Categories.Commands.DeleteCategory
         public async Task<ApiResponse<bool>> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
             var response = new ApiResponse<bool>();
-            var category = await _categoryRepository.GetCategoryByIdAsync(request.Id);
+            var category = await _categoryRepository.GetByIdAsync(request.Id);
             if (category == null)
             {
                 response.StatusCode = StatusCodes.NotFound;
                 return response;
             }
             category.IsDeleted = true;
-            _categoryRepository.UpdateCategory(category);
+            _categoryRepository.Update(category);
             await _categoryRepository.SaveChangesAsync();
             return response;
         }

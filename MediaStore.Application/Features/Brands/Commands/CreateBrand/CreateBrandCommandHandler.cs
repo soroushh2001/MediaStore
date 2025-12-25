@@ -37,7 +37,7 @@ namespace MediaStore.Application.Features.Brands.Commands.CreateBrand
 
             var brand = _mapper.Map<Brand>(request);
 
-            await _brandRepository.CreateBrandAsync(brand);
+            await _brandRepository.CreateAsync(brand);
             await _brandRepository.SaveChangesAsync();
             return response;
         }

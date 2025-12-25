@@ -14,7 +14,7 @@ namespace MediaStore.Persistence.Repositories
             _context = context;
         }
 
-        public async Task AddOrderAsync(Order order)
+        public async Task AddAsync(Order order)
         {
             await _context.Orders.AddAsync(order);
         }
@@ -37,7 +37,7 @@ namespace MediaStore.Persistence.Repositories
             return await _context.OrderDetails.Where(o => o.OrderId == orderId).Select(d => d.Count * d.Price).SumAsync();
         }
 
-        public void UpdateOrder(Order order)
+        public void Update(Order order)
         {
             _context.Orders.Update(order);
         }

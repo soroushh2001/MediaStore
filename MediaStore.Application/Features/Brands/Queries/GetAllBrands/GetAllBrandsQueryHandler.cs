@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediaStore.Application.Contracts.Persistence;
 using MediaStore.Application.Features.Brands.Shared;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace MediaStore.Application.Features.Brands.Queries.GetAllBrands
 {
@@ -17,8 +19,14 @@ namespace MediaStore.Application.Features.Brands.Queries.GetAllBrands
 
         public async Task<List<BrandResponse>> Handle(GetAllBrandsQuery request, CancellationToken cancellationToken)
         {
-            var brands = await _brandRepository.GetAllBrandsAsync(request.IsDeleted);
-            return _mapper.Map<List<BrandResponse>>(brands);
+            var query = _brandRepository.Query();
+
+            if (request.IsDeleted != null)
+            {
+                query = query.Where(b => b.IsDeleted == request.IsDeleted.Value);
+            }
+            
+            return await query.ProjectTo<BrandResponse>(_mapper.ConfigurationProvider).ToListAsync();
         }
     }
 

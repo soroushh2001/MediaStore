@@ -4,7 +4,7 @@ using MediaStore.Application.Features.Products.Commands.DeleteProduct;
 using MediaStore.Application.Features.Products.Commands.UpdateProduct;
 using MediaStore.Application.Features.Products.Queries.GetFilteredProducts;
 using MediaStore.Application.Features.Products.Queries.GetProductById;
-using MediaStore.Application.Specifications;
+using MediaStore.Application.FilterParameters;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,9 +24,9 @@ namespace MediaStore.Api.Controllers
         }
 
         [HttpGet("get-filtered")]
-        public async Task<IActionResult> GetFilteredProducts([FromQuery]FilterProductSpecification specification)
+        public async Task<IActionResult> GetFilteredProducts([FromQuery]BaseQueryParameters baseQueryParams,[FromQuery]FilterProductParameters filterParams)
         {
-            return Ok(await _mediator.Send(new GetFilteredProductsQuery(specification)));
+            return Ok(await _mediator.Send(new GetFilteredProductsQuery(baseQueryParams,filterParams)));
         }
 
         [HttpGet("get-by-id/{id}")]

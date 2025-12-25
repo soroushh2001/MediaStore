@@ -1,12 +1,10 @@
-﻿using MediaStore.Application.Common.Responses;
-using MediaStore.Application.Specifications;
-using MediaStore.Domain.Entities;
+﻿using MediaStore.Domain.Entities;
 
 namespace MediaStore.Application.Contracts.Persistence
 {
     public interface IProductRepository 
     {
-        Task<PaginatedResponse<Product>> GetFilteredProductsAsync(FilterProductSpecification specification);    
+        IQueryable<Product> GetQuryable();    
         Task CreateProductAsync(Product product);
         void UpdateProduct(Product product);
         Task<Product?> GetProductByIdAsync(int id);

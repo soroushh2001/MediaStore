@@ -18,14 +18,14 @@ namespace MediaStore.Application.Features.Cart.Commands.DeleteFromCart
 
         public async Task<bool> Handle(DeleteFromCartCommand request, CancellationToken cancellationToken)
         {
-            var orderDetail = await _orderDetailRepository.GetOrderDetailByIdAsync(request.OrderDetailId);
+            var orderDetail = await _orderDetailRepository.GetByIdAsync(request.OrderDetailId);
             var order = await _orderRepository.GetUserLatestOpenOrderAsync(_userService.UserId);
             if(orderDetail == null) 
                 return false;
-            _orderDetailRepository.DeleteOrderDetail(orderDetail);
+            _orderDetailRepository.Remove(orderDetail);
             await _orderDetailRepository.SaveChangesAsync();
             order.Sum = await _orderRepository.UpdateSumOrderAsync(order.Id);
-            _orderRepository.UpdateOrder(order);
+            _orderRepository.Update(order);
             await _orderRepository.SaveChangesAsync();
             return true;
         }
